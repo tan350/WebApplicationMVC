@@ -1,0 +1,45 @@
+﻿body {
+    margin: 0;
+    padding:0;
+}
+
+.login-container {
+    width: 40%;
+    height: 50%;
+    background-color: aqua;
+    margin-left: 450px;
+    margin-top: 150px;
+}
+
+.form-section {
+    width: 100%;
+    height: 100%;
+    margin-left: 150px;
+}
+
+.fieldBtnContainer {
+   width: 300px;
+   height: 350px;
+}
+
+.fieldBtnContainer select {
+    margin-bottom: 20px;
+    margin-top: 60px;
+}
+
+.fieldBtnContainer input{
+    margin-bottom: 20px;
+    margin-top: 15px;
+}
+
+    .fieldBtnContainer button {
+        margin-top: 40px;
+        background-color: dodgerblue;
+        height: 30px;
+        width: 70px;
+    }
+
+        .fieldBtnContainer button:hover {
+            background-color:blue;
+            cursor: pointer;
+        }

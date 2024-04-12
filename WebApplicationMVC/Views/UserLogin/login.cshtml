@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewBag.Title = "login";
+    Layout = null;
+}
+
+<html>
+<head>
+    <title>UserAuthentication</title>
+    <link rel="stylesheet" type="text/css" href="~/Content/UserLogin.css" />
+    <link rel="icon" type="image/x-icon" href="~/Content/favicon.ico"/>
+</head>
+<body>
+    <div class="login-container">
+        <form class="form-section" action="@Url.Action("Login","UserLogin")" method="post">
+            <div class="fieldBtnContainer">
+                <label>UserRole</label>
+                <select name="UserRole">
+                    <option value="Super Admin">Super Admin</option>
+                    <option value="Admin">Admin</option>
+                    <option value="Guest">Guest</option>
+                    <option value="Self">Self</option>
+                </select>
+                <br />
+                <label>UserName</label>
+                <input type="text" name="UserName" />
+                <br />
+                <label>Password</label>
+                <input type="password" name="Password" />
+                <br />
+                <button type="submit">Login</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+

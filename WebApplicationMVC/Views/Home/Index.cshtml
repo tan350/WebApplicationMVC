@@ -1,0 +1,36 @@
+﻿@model List<VO.StudentVO>
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<main>
+    <section class="row" aria-labelledby="aspnetTitle">
+        <h1 id="title">Students</h1>
+    </section>
+
+    <div class="row">
+        <table>
+            <thead>
+            <th><a href="@Url.Action("Index", "Home", new {sortColumn="SrNo", sortDirection=ViewBag.SortDirection})" style="text-decoration: none; color: inherit;">Sr No.</a></th>
+            <th><a href="@Url.Action("Index", "Home", new {sortColumn="Name", sortDirection=ViewBag.SortDirection})" style="text-decoration: none; color: inherit;">Name</a></th>
+            <th><a href="@Url.Action("Index", "Home", new {sortColumn="Course", sortDirection=ViewBag.SortDirection})" style="text-decoration: none; color: inherit;">Course</a></th>
+            <th><a href="@Url.Action("Index", "Home", new {sortColumn="College", sortDirection=ViewBag.SortDirection})" style="text-decoration: none; color: inherit;">College</a></th>
+            </thead>
+            <tbody>
+                @foreach (var student in Model)
+                {
+                    <tr data-id=@student.SrNo class="clickable-row">
+                        <td>@student.SrNo</td>
+                        <td>@student.Name</td>
+                        <td>@student.Course</td>
+                        <td>@student.College</td>
+                        <td><a id="edit-link" href="@Url.Action("Update", "Home", new {id= @student.SrNo})">Edit</a></td>
+                        <td><a href="@Url.Action("View", "Home", new {id= @student.SrNo})">View</a></td>
+                        <td><a href="@Url.Action("Delete", "Home", new {id= @student.SrNo})">Delete</a></td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+</main>

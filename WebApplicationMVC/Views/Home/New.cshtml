@@ -1,0 +1,170 @@
+﻿@model VO.StudentVO
+@{
+    ViewBag.Title = "Record";
+}
+<main aria-labelledby="title">
+    <h2 id="title">@ViewBag.Title.</h2>
+    <h3>@ViewBag.Message</h3>
+
+    <form action="@Url.Action("New","Home")" method="post">
+        <div id="messageDiv" data-message="@ViewBag.Message" class="mainContainer">
+            <div class="leftContainer">
+                <label>SrNo</label><input id="SrNo" name="SrNo" type="number" min="1" value="@Model.SrNo" readonly />
+                <label>Name</label><input id="Name" name="Name" type="text" value="@Model.Name" />
+            </div>
+            <div class="rightContainer">
+                <label>Course</label><input id="Course" name="Course" type="text" value="@Model.Course" />
+                <label>College</label><input id="College" name="College" type="text" value="@Model.College" />
+            </div>
+            <div class="addBtnContainer">
+                <button id="add" type="submit">Add</button>
+                <button id="edit" type="button">Edit</button>
+                <button id="clear" type="button">Clear</button>
+            </div>
+            <div class="viewBtnContainer">
+                <button id="first" type="button">First</button>
+                <button id="previous" type="button">Previous</button>
+                <button id="next" type="button">Next</button>
+                <button id="last" type="button">Last</button>
+            </div>
+        </div>
+    </form>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+
+    <script>
+
+
+        /*var message = document.getElementById("messageDiv").getAttribute("data-message");*/
+
+        @*var message = @Html.Raw(Json.Encode(ViewBag.Message));*@
+
+
+        var message = '@ViewBag.Message';
+        console.log(message);
+        if (message == "New") {
+            document.getElementById("edit").style.display = 'none';
+            document.getElementById("first").style.display = 'none';
+            document.getElementById("previous").style.display = 'none';
+            document.getElementById("next").style.display = 'none';
+            document.getElementById("last").style.display = 'none';
+        }
+        else if (message == "Update") {
+            document.getElementById("add").style.display = 'none';
+            document.getElementById("first").style.display = 'none';
+            document.getElementById("previous").style.display = 'none';
+            document.getElementById("next").style.display = 'none';
+            document.getElementById("last").style.display = 'none';
+        }
+        else {
+            document.getElementById("add").style.display = 'none';
+            document.getElementById("edit").style.display = 'none';
+            document.getElementById("clear").style.display = 'none';
+        }
+
+        $(document).ready(function () {
+            fetchRecords();
+
+            function clearFormFields() {
+                $('#Name').val('');
+                $('#Course').val('');
+                $('#College').val('');
+            }
+
+            $('#clear').click(function (e) {
+                e.preventDefault();
+                if (confirm('Are you sure you want to clear the form fields?')) {
+                    clearFormFields();
+                }
+            });
+
+            $('#edit').click(function (event) {
+
+                event.preventDefault();
+
+                var SrNo = $('#SrNo').val();
+                var Name = $('#Name').val();
+                var Course = $('#Course').val();
+                var College = $('#College').val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/Update", 
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        SrNo: SrNo,
+                        Name: Name,
+                        Course: Course,
+                        College: College
+                    }),
+                    success: function (response) {
+                        alert("Record updated successfully!");
+                    },
+                    error: function (xhr, status, error) {
+                        alert("An error occurred while updating the record.");
+                    }
+                });
+            });
+
+            var currentIndex = 0;
+            var records = [];
+
+            function fetchRecords() {
+
+                $.ajax({
+                    type: "GET",
+                    url: "/Home/GetAllRecords",
+                    success: function (data) {
+                        records = data;
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+
+            }
+
+            function UpdateRecordFields(index) {
+
+                var record = records[index];
+                $('#SrNo').val(record.SrNo);
+                $('#Name').val(record.Name);
+                $('#Course').val(record.Course);
+                $('#College').val(record.College);
+
+            }
+
+            $('#first').click(function (event) {
+                event.preventDefault();
+                currentIndex = 0;
+                UpdateRecordFields(currentIndex);
+            });
+
+            $('#next').click(function (event) {
+                event.preventDefault();
+                if (currentIndex < records.length) {
+                    currentIndex++;
+                    UpdateRecordFields(currentIndex);
+                }
+            });
+
+            $('#previous').click(function (event) {
+                event.preventDefault();
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    UpdateRecordFields(currentIndex);
+                }
+            });
+
+            $('#last').click(function (event) {
+                event.preventDefault();
+                currentIndex = records.length - 1;
+                UpdateRecordFields(currentIndex);
+            });
+
+
+        });
+
+
+    </script>
+</main>
